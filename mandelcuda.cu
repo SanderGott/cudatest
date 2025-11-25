@@ -25,16 +25,16 @@ __global__ void cudaPixel(RGB *cudaScreen, int width, int height, double cx, dou
     double y_min = cy - y_half;
     double y_max = cy + y_half;
 
-    float x0 = x_min + (Sx / (width - 1.0)) * (x_max - x_min);
-    float y0 = y_min + (Sy / (height - 1.0)) * (y_max - y_min);
+    double x0 = x_min + (Sx / (width - 1.0)) * (x_max - x_min);
+    double y0 = y_min + (Sy / (height - 1.0)) * (y_max - y_min);
 
-    float x = 0.0f;
-    float y = 0.0f;
+    double x = 0.0f;
+    double y = 0.0f;
     int iteration = 0;
     while (x * x + y * y <= 4.0f && iteration < MAX_ITERS)
     {
-        float x2 = x * x - y * y + x0;
-        float y2 = 2.0f * x * y + y0;
+        double x2 = x * x - y * y + x0;
+        double y2 = 2.0f * x * y + y0;
         x = x2;
         y = y2;
         iteration++;
@@ -51,7 +51,7 @@ __global__ void cudaPixel(RGB *cudaScreen, int width, int height, double cx, dou
     }
     else
     {
-        float t = (float)iteration / (float)MAX_ITERS;
+        double t = (float)iteration / (float)MAX_ITERS;
         unsigned char r = (unsigned char)(9.0f * (1 - t) * t * t * t * 255.0f);
         unsigned char g = (unsigned char)(15.0f * (1 - t) * (1 - t) * t * t * 255.0f);
         unsigned char b = (unsigned char)(8.5f * (1 - t) * (1 - t) * (1 - t) * t * 255.0f);

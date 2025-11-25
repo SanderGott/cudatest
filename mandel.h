@@ -10,4 +10,4 @@ struct RGB
 void mandelstuff(RGB *screen, int width, int height, double cx, double cy, double zoom);
 void computeMandelCuda(RGB *screen, int width, int height, double cx, double cy, double zoom);
 
-#define MAX_ITERS 300
+#define MAX_ITERS 200
