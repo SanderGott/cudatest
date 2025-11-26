@@ -3,6 +3,8 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <omp.h>
+#include <iostream>
 
 struct L
 {
@@ -57,6 +59,7 @@ struct L match(int k, long long int i, long long int j, int x)
 void compute1(float **A, int **B, long long int N, int x)
 {
     float V[9];
+    //#pragma omp parallel for collapse(2) schedule(static)
     for (long long int i = x; i < N - x; i++)
     {
         for (long long int j = x; j < N - x; j++)
@@ -99,7 +102,13 @@ struct L compute2(int **B, long long int N, int x)
 
 int main(int argc, char *argv[])
 {
-    srand(time(0));
+    #ifdef _OPENMP
+    std::cout << "OpenMP enabled, version: " << _OPENMP << "\n";
+#else
+    std::cout << "OpenMP NOT enabled.\n";
+#endif
+    //srand(time(0));
+    srand(19);
     float **A;
     int **B;
     int **B2;
@@ -108,7 +117,7 @@ int main(int argc, char *argv[])
     int argumentLoop = atoi(argv[2]);
 
 
-    clock_t startTime = clock();
+    double startTime = omp_get_wtime();
 
     // Allocate row pointer arrays
     A = (float **)malloc(N * sizeof(float *));
@@ -137,6 +146,7 @@ int main(int argc, char *argv[])
     }
 
     // Initialize A with random data, B/B2/B3 with 4
+    //#pragma omp parallel for collapse(2) schedule(static)
     for (long long int i = 0; i < N; i++)
     {
         for (long long int j = 0; j < N; j++)
@@ -195,9 +205,9 @@ int main(int argc, char *argv[])
     delete[] (res3);
 
 
-    clock_t endTime = clock();
+    double endTime = omp_get_wtime();
 
-    double totalTime = (double)(endTime - startTime) / (double)CLOCKS_PER_SEC;
+    double totalTime = endTime - startTime;
     printf("Total time: %.6f seconds\n", totalTime);
 
 
