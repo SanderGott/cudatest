@@ -23,6 +23,7 @@ add_executable(cpu main.cpp)
 add_executable(cuda main.cpp cuda.cu)
 add_executable(mandel main.cpp mandel.cpp)
 add_executable(mandelcuda main.cpp mandelcuda.cu)
+add_executable(exam exam.cpp)
 
 target_compile_definitions(cuda PRIVATE cuda)
 target_compile_definitions(cpu PRIVATE cpu)
