@@ -107,6 +107,9 @@ int main(int argc, char *argv[])
     long long int N = atoll(argv[1]);
     int argumentLoop = atoi(argv[2]);
 
+
+    clock_t startTime = clock();
+
     // Allocate row pointer arrays
     A = (float **)malloc(N * sizeof(float *));
     B = (int **)malloc(N * sizeof(int *));
@@ -168,11 +171,11 @@ int main(int argc, char *argv[])
         res3[i] = r3;
     }
 
-    for (int i = 0; i < (argumentLoop < 10 ? argumentLoop : 10); i++) {
-        printf("res[%d]  = (%lld, %lld)\n", i, res[i].a,  res[i].b);
-        printf("res2[%d] = (%lld, %lld)\n", i, res2[i].a, res2[i].b);
-        printf("res3[%d] = (%lld, %lld)\n", i, res3[i].a, res3[i].b);
-    }
+    // for (int i = 0; i < (argumentLoop < 10 ? argumentLoop : 10); i++) {
+    //     printf("res[%d]  = (%lld, %lld)\n", i, res[i].a,  res[i].b);
+    //     printf("res2[%d] = (%lld, %lld)\n", i, res2[i].a, res2[i].b);
+    //     printf("res3[%d] = (%lld, %lld)\n", i, res3[i].a, res3[i].b);
+    // }
 
     for (long long int i = 0; i < N; i++)
     {
@@ -190,6 +193,13 @@ int main(int argc, char *argv[])
     delete[] (res);
     delete[] (res2);
     delete[] (res3);
+
+
+    clock_t endTime = clock();
+
+    double totalTime = (double)(endTime - startTime) / (double)CLOCKS_PER_SEC;
+    printf("Total time: %.6f seconds\n", totalTime);
+
 
     return 0;
 }
